@@ -437,13 +437,25 @@ const GridExample = () => {
       cellClassRules: {
         'bg-gray-200': params => params.value === "",
       },
-      onCellValueChanged: onCellValueChanged
+      onCellValueChanged: onCellValueChanged,
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: (params: ICellEditorParams<IRow>) => {
+        return {
+          values: ['하나 급여', '']
+        }
+      },
     },
     {
       field: "col8",
       headerName: "출금계좌",
       cellClassRules: {
         'bg-gray-200': params => params.value === "",
+      },
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: (params: ICellEditorParams<IRow>) => {
+        return {
+          values: ['하나 급여', '']
+        }
       },
       onCellValueChanged: onCellValueChanged
     },
