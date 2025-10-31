@@ -1,10 +1,10 @@
 // app/api/comments/route.ts
-import { connectDB } from "@/app/utils/mongodb";
+import clientPromise from "@/lib/db/mongodb";
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
     try {
-        const client = await connectDB
+        const client = await clientPromise
         const db = client.db("sample_mflix")
 
         const comments = await db.collection("comments").find({}).toArray()

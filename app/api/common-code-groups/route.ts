@@ -1,12 +1,12 @@
-// app/api/comments/route.ts
-import { connectDB } from "@/app/utils/mongodb";
+// app/api/common-code-groups/route.ts
+import clientPromise from "@/lib/db/mongodb";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from 'next/server'
 import { success } from "zod";
 
 export async function GET() {
     try {
-        const client = await connectDB;
+        const client = await clientPromise;
         const db = client.db("shadcn");
 
         const commonCodeGroups = await db.collection("common-code-group").find({}).sort({ 'code': 1 }).toArray();
@@ -27,7 +27,7 @@ export async function GET() {
 
 export async function DELETE(request: NextRequest) {
     try {
-        const client = await connectDB;
+        const client = await clientPromise;
         const db = client.db("shadcn");
 
         const commonCodeGroups = await request.json();
@@ -46,7 +46,7 @@ export async function DELETE(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     try {
-        const client = await connectDB;
+        const client = await clientPromise;
         const db = client.db("shadcn");
 
         const commonCodeGroup = await request.json();

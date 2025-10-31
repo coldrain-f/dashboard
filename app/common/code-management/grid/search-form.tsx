@@ -12,7 +12,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
-import { Dropdown } from "@/components/dropdown";
+import { Dropdown } from "@/components/features/common/dropdown";
 import { Input } from "@/components/ui/input";
 import { Repeat } from "lucide-react";
 

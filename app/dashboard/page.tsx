@@ -1,18 +1,18 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import { ChartAreaInteractive } from "@/components/chart-area-interactive"
-import { DataTable } from "@/components/data-table"
-import { SectionCards } from "@/components/section-cards"
-import { SiteHeader } from "@/components/site-header"
+import { AppSidebar } from "@/components/layout/app-sidebar"
+import { ChartAreaInteractive } from "@/components/features/chart/chart-area-interactive"
+import { DataTable } from "@/components/features/grid/data-table"
+import { SectionCards } from "@/components/features/section/section-cards"
+import { SiteHeader } from "@/components/layout/site-header"
 import {
   SidebarInset,
   SidebarProvider,
 } from "@/components/ui/sidebar"
 
 import data from "./data.json"
-import { Grid } from "@/components/grid"
+import { Grid } from "@/components/features/grid/grid"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { SearchForm } from "@/components/search-from"
+import { SearchForm } from "@/components/features/search/search-from"
 
 export default function Page() {
   return (

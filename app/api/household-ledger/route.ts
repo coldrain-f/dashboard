@@ -1,11 +1,11 @@
-// app/api/comments/route.ts
-import { connectDB } from "@/app/utils/mongodb";
+// app/api/household-ledger/route.ts
+import clientPromise from "@/lib/db/mongodb";
 import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET() {
     try {
-        const client = await connectDB;
+        const client = await clientPromise;
         const db = client.db("shadcn");
 
         const rows = await db.collection("household").find({}).sort({ 'col1': -1, 'col2': -1, 'col3': 1, 'col4': 1 }).toArray();
@@ -26,7 +26,7 @@ export async function GET() {
 
 export async function DELETE(request: NextRequest) {
     try {
-        const client = await connectDB;
+        const client = await clientPromise;
         const db = client.db("shadcn");
 
         const rows = await request.json();
@@ -48,7 +48,7 @@ export async function DELETE(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
     try {
-        const client = await connectDB;
+        const client = await clientPromise;
         const db = client.db("shadcn");
 
         const rows = await request.json();

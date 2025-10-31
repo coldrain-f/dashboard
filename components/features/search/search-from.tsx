@@ -33,9 +33,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 
-import { invoke } from "@/app/dashboard/anki/api"
+import { invoke } from "@/lib/api/anki"
 import { useState } from "react";
-import { Dropdown } from "./dropdown";
+import { Dropdown } from "@/components/features/common/dropdown";
 
 const frameworks = [
     {

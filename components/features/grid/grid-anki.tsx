@@ -10,17 +10,17 @@ import { AG_GRID_LOCALE_KR } from '@ag-grid-community/locale';
 
 // 테마
 import { themeQuartz } from 'ag-grid-community';
-import { advencedTheme } from "./common/ag-grid/theme/advenced-theme";
+import { advencedTheme } from "./ag-grid/theme/advenced-theme";
 
 // 오버레이
-import CustomOverlay from "./common/ag-grid/ag-grid-overlay";
+import CustomOverlay from "./ag-grid/ag-grid-overlay";
 
 // 커스텀 헤더
-import CustomInnerHeader from './common/ag-grid/header/ag-grid-icon-header';
+import CustomInnerHeader from './ag-grid/header/ag-grid-icon-header';
 
 // Anki
-import { invoke } from "@/app/dashboard/anki/api"
-import { Button } from "./ui/button";
+import { invoke } from "@/lib/api/anki"
+import { Button } from "@/components/ui/button";
 
 // Register all Community features
 ModuleRegistry.registerModules([AllCommunityModule]);

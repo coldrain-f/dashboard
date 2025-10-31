@@ -13,18 +13,18 @@ import { IconRefresh, IconPlus, IconMinus, IconDeviceFloppy } from "@tabler/icon
 import { AG_GRID_LOCALE_KR } from '@ag-grid-community/locale';
 
 // 테마
-import { advencedTheme } from "./common/ag-grid/theme/advenced-theme";
+import { advencedTheme } from "./ag-grid/theme/advenced-theme";
 
 // 오버레이
-import CustomOverlay from "./common/ag-grid/ag-grid-overlay";
+import CustomOverlay from "./ag-grid/ag-grid-overlay";
 
 // 커스텀 헤더
-import CustomInnerHeader from './common/ag-grid/header/ag-grid-icon-header';
+import CustomInnerHeader from './ag-grid/header/ag-grid-icon-header';
 
 // 렌더러
-import { Button } from "./ui/button";
-import { Switch } from "./ui/switch";
-import { Separator } from "./ui/separator";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
 
 import {
   AlertDialog,
