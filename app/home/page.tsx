@@ -11,6 +11,8 @@ import {
   RadioGroupItem,
 } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label";
+import { CommonCodeGroupManagementGrid } from "../common/code-management/grid/grid-code-group";
+import { CommonCodeManagementGrid } from "../common/code-management/grid/grid-code";
 
 export default function Page() {
   const [userName, setUserName] = useState('')
@@ -41,7 +43,7 @@ export default function Page() {
     {
       label: '사용여부',
       component: (
-        <RadioGroup defaultValue="comfortable" className="flex flex-row gap-4">
+        <RadioGroup defaultValue="all" className="flex flex-row gap-4">
           <div className="flex items-center gap-2">
             <RadioGroupItem value="all" id="r1" />
             <Label htmlFor="r1">전체</Label>
@@ -72,9 +74,11 @@ export default function Page() {
       <DataGridDualLayout gridRatio={GRID_RATIOS.LEFT_EMPHASIS}>
         <div>
           <DataGridHeader title="코드 그룹 목록" />
+          <CommonCodeGroupManagementGrid />
         </div>
         <div>
           <DataGridHeader title="코드 목록" />
+          <CommonCodeManagementGrid />
         </div>
       </DataGridDualLayout>
     </MainLayout>

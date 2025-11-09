@@ -223,7 +223,7 @@ const MyGrid = () => {
 
   // Container: Defines the grid's theme & dimensions.
   return (
-    <div style={{ height: '647px' }}>
+    <div style={{ height: '585px' }}>
       <AgGridReact
         // rowHeight={40}
         theme={advencedTheme}
