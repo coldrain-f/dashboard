@@ -27,7 +27,7 @@ export default function DataGridHeader({
     showSave = true
 }: DataGridHeaderProps) {
     return (
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-2">
             <div>
                 <div className="flex mb-2.5">
 
