@@ -141,7 +141,7 @@ export default function Page() {
 
       <DataGridSingleLayout>
         <DataGridHeader
-          title="카테고리별 합산 금액"
+          title="분류별 합산 금액"
           showAdd={false}
           showDelete={false}
           showSave={false}
