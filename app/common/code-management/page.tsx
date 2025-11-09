@@ -1,86 +1,86 @@
-import { AppSidebar } from "@/components/app-sidebar"
-import { SiteHeader } from "@/components/site-header"
+'use client';
+import DataGridDualLayout, { GRID_RATIOS } from "@/components/common/layouts/data-grid-dual-layout";
+import MainLayout from "@/components/common/layouts/main-layout";
+import DataGridHeader from "@/components/common/ui/data-grid-header";
+import { DataGridSearchSection } from "@/components/common/ui/data-grid-search-section";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+
 import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
+  RadioGroup,
+  RadioGroupItem,
+} from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label";
+import { CommonCodeGroupManagementGrid } from "./grid/grid-code-group";
+import { CommonCodeManagementGrid } from "./grid/grid-code";
 
-import { Button } from "@/components/ui/button"
-import { CommonCodeManagementGrid } from "@/app/common/code-management/grid/grid-code"
-import { CommonCodeGroupManagementGrid } from "./grid/grid-code-group"
-import { CommonCodeManagementSearchForm } from "./grid/search-form"
+export default function Page() {
+  const [userName, setUserName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
 
-export default async function Page() {
+  const searchFields = [
+    {
+      label: '그룹코드',
+      component: (
+        <Input
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          placeholder="내용을 입력하세요."
+        />
+      )
+    },
+    {
+      label: '그룹코드명',
+      component: (
+        <Input
+          type="email"
+          value={userEmail}
+          onChange={(e) => setUserEmail(e.target.value)}
+          placeholder="내용을 입력하세요."
+        />
+      )
+    },
+    {
+      label: '사용여부',
+      component: (
+        <RadioGroup defaultValue="all" className="flex flex-row gap-4">
+          <div className="flex items-center gap-2">
+            <RadioGroupItem value="all" id="r1" />
+            <Label htmlFor="r1">전체</Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <RadioGroupItem value="yes" id="r2" />
+            <Label htmlFor="r2">사용</Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <RadioGroupItem value="no" id="r3" />
+            <Label htmlFor="r3">미사용</Label>
+          </div>
+        </RadioGroup>
+      )
+    },
+  ]
 
   return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "calc(var(--spacing) * 72)",
-          "--header-height": "calc(var(--spacing) * 12)",
-        } as React.CSSProperties
-      }
-      className="theme-scaled"
-    >
-      <AppSidebar variant="inset" />
-      <SidebarInset className="">
-        <SiteHeader />
-        <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
-            <div className="py-6">
-              <div className="px-6 mb-16">
-                <CommonCodeManagementSearchForm />
-              </div>
-              <div className="grid grid-cols-[2fr_3fr] gap-5">
-                {/* 상위 코드 */}
-                <div className="ps-6">
-
-                  <CommonCodeGroupManagementGrid />
-                </div>
-
-                {/* 하위 코드 */}
-                <div className="pr-6">
-                  <div className="flex justify-between">
-                    <div>
-                      {/* <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-                        하위 코드
-                      </h4> */}
-                      <div style={{
-                        display: 'flex',
-                        marginBottom: '10px'
-                      }}>
-                        <div style={{
-                          display: 'inline-block',
-                          verticalAlign: 'top',
-                          margin: '7px 7px 8px 0px',
-                          height: '7px',
-                          width: '7px',
-                          border: 'solid 2px #f26522'
-                        }} />
-                        <div>
-                          <span style={{
-                            fontSize: '16px',
-                            fontWeight: 'bold'
-                          }}>
-                            하위 코드
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex gap-2 justify-end mb-2">
-                      <Button variant={"outline"} size={"sm"} className="cursor-pointer">행 추가</Button>
-                      <Button variant={"outline"} size={"sm"} className="cursor-pointer">행 삭제</Button>
-                      <Button variant={"default"} size={"sm"} className="cursor-pointer">저장</Button>
-                    </div>
-                  </div>
-                  <CommonCodeManagementGrid />
-                </div>
-              </div>
-              {/* <DataTable data={data} /> */}
-            </div>
-          </div>
+    <MainLayout title="공통 코드 관리">
+      <DataGridSearchSection
+        fields={searchFields}
+        onSearch={() => console.log({ userName, userEmail })}
+        onReset={() => {
+          setUserName('')
+          setUserEmail('')
+        }}
+      />
+      <DataGridDualLayout gridRatio={GRID_RATIOS.LEFT_EMPHASIS}>
+        <div>
+          <DataGridHeader title="코드 그룹 목록" />
+          <CommonCodeGroupManagementGrid />
         </div>
-      </SidebarInset>
-    </SidebarProvider>
+        <div>
+          <DataGridHeader title="코드 목록" />
+          <CommonCodeManagementGrid />
+        </div>
+      </DataGridDualLayout>
+    </MainLayout>
   )
 }
