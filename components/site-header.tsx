@@ -15,7 +15,7 @@ export function SiteHeader() {
         <div className="ml-auto flex items-center gap-2">
           <Button variant="secondary" asChild size="sm" className="hidden sm:flex">
             <a
-              href="https://nops.co.kr/help/help/h001_01.php"
+              href="https://aud.bimatrix.co.kr/portal/Content.jsp"
               rel="noopener noreferrer"
               target="_blank"
               className="dark:text-foreground"
