@@ -13,7 +13,18 @@ export function SiteHeader() {
         />
         <h1 className="text-base font-medium">Documents</h1>
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
+          <Button variant="secondary" asChild size="sm" className="hidden sm:flex">
+            <a
+              href="https://nops.co.kr/help/help/h001_01.php"
+              rel="noopener noreferrer"
+              target="_blank"
+              className="dark:text-foreground"
+            >
+              AUD Platform
+            </a>
+          </Button>
+
+          <Button variant="secondary" asChild size="sm" className="hidden sm:flex">
             <a
               href="https://nops.co.kr/help/help/h001_01.php"
               rel="noopener noreferrer"
@@ -24,7 +35,7 @@ export function SiteHeader() {
             </a>
           </Button>
 
-          <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
+          <Button variant="secondary" asChild size="sm" className="hidden sm:flex">
             <a
               href="https://cloud.mongodb.com/v2/"
               rel="noopener noreferrer"
