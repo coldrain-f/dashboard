@@ -27,12 +27,13 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 // Row Data Interface
 interface IRow {
-  cardId: number;
-  deckName: string;
-  exampleJpReading: string;
-  confirm: string;
   expression: string;
+  reading: string;
   meaning: string;
+  audio: string;
+  jaName: string;
+  enName: string;
+  number: string;
 }
 
 // to use myTheme in an application, pass it to the theme grid option
@@ -84,29 +85,13 @@ const GridExample = () => {
 
   // Column Definitions: Defines & controls grid columns.
   const [colDefs, setColDefs] = useState<ColDef<IRow>[]>([
-    { field: "cardId", headerName: "ID", flex: 0.3, hide: true },
-    { field: "deckName", headerName: "덱 이름", flex: 0.3, hide: true, },
-    { field: "expression", headerName: "단어", flex: 0.1 },
-    { field: "meaning", headerName: "뜻", flex: 0.1 },
-    { field: "exampleJpReading", headerName: "일본어 문장", flex: 1 },
-    {
-      field: "confirm",
-      headerName: "검토 여부",
-      width: 100,
-      pinned: "right",
-      editable: false,
-      valueFormatter: (p) => {
-        if (!p.value) {
-          return 'N'
-        }
-        return p.value
-      },
-      cellClassRules: {
-        'bg-rose-100': params => params.value === 'N' || !params.value,
-        'bg-blue-100': params => params.value === 'Y',
-      },
-      cellStyle: { textAlign: 'center' }
-    },
+    { field: "expression", headerName: "Expression", flex: 1, hide: false },
+    { field: "reading", headerName: "Reading", flex: 1, hide: false, },
+    { field: "meaning", headerName: "Meaning", flex: 1 },
+    { field: "audio", headerName: "Audio", flex: 1 },
+    { field: "jaName", headerName: "JaName", flex: 1 },
+    { field: "enName", headerName: "EnName", flex: 1 },
+    { field: "number", headerName: "Number", flex: 1 },
   ]);
 
   const defaultColDef: ColDef = {
@@ -125,8 +110,8 @@ const GridExample = () => {
   };
 
   const pagination = true;
-  const paginationPageSize = 500;
-  const paginationPageSizeSelector = [200, 500, 1000];
+  const paginationPageSize = 40000;
+  const paginationPageSizeSelector = [200, 500, 1000, 40000];
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -145,11 +130,13 @@ const GridExample = () => {
             const newCards: IRow[] = [];
             for (let i = 0; i < res.length; i++) {
               const card: IRow = {
-                cardId: res[i].cardId, deckName: res[i].deckName,
-                exampleJpReading: res[i].fields.Example_JP_Reading.value,
-                confirm: res[i].fields.Confirm.value,
                 expression: res[i].fields.Expression.value,
+                reading: res[i].fields.Reading.value,
                 meaning: res[i].fields.Meaning.value,
+                audio: res[i].fields.Audio.value,
+                jaName: res[i].fields.JaName.value,
+                enName: res[i].fields.EnName.value,
+                number: res[i].fields.Number.value,
               }
               newCards.push(card);
             }

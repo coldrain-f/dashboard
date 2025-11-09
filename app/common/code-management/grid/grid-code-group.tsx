@@ -7,7 +7,6 @@ import { AgGridReact } from "ag-grid-react";
 
 import { AG_GRID_LOCALE_KR } from '@ag-grid-community/locale';
 
-import { basicTheme } from "@/components/common/ag-grid/theme/basic-theme";
 import { advencedTheme } from "@/components/common/ag-grid/theme/advenced-theme";
 import CustomOverlay from "@/components/common/ag-grid/ag-grid-overlay";
 import CustomInnerHeader from '@/components/common/ag-grid/header/ag-grid-icon-header';
