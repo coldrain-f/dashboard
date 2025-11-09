@@ -1,16 +1,26 @@
-// components/layouts/dual-grid-layout.tsx
 'use client';
 
 import { ReactNode } from 'react';
 
+const GRID_RATIOS = {
+    EQUAL: '1fr 1fr',              // 균등 분할
+    SIDEBAR_LEFT: '1fr 3fr',       // 왼쪽 사이드바 (작음)
+    SIDEBAR_RIGHT: '3fr 1fr',      // 오른쪽 사이드바 (작음)
+    LEFT_EMPHASIS: '2fr 3fr',      // 왼쪽 약간 작게
+    RIGHT_EMPHASIS: '3fr 2fr',     // 오른쪽 약간 작게
+    MASTER_DETAIL: '1fr 2fr',      // 마스터-디테일 (왼쪽 목록, 오른쪽 상세)
+} as const;
+
+type GridRatio = typeof GRID_RATIOS[keyof typeof GRID_RATIOS] | string;
+
 interface DualGridDualLayoutProps {
     children: [ReactNode, ReactNode];
-    gridRatio?: string;
+    gridRatio?: GridRatio;
 }
 
-export default function DualGridLayout({
+export default function DataGridDualLayout({
     children,
-    gridRatio = '2fr 3fr'
+    gridRatio = GRID_RATIOS.LEFT_EMPHASIS
 }: DualGridDualLayoutProps) {
     const [left, right] = children;
 
@@ -31,3 +41,5 @@ export default function DualGridLayout({
         </div>
     );
 }
+
+export { GRID_RATIOS };
