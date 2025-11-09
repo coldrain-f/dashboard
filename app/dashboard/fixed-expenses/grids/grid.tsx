@@ -150,6 +150,12 @@ const Grid = () => {
       cellRendererParams: {
         deferRender: true
       },
+      headerComponentParams: {
+        innerHeaderComponent: CustomInnerHeader,
+        innerHeaderComponentParams: {
+          isLock: true,
+        }
+      },
       editable: false,
       filter: false,
       sortable: false,
