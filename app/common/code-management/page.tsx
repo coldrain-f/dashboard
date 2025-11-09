@@ -11,8 +11,8 @@ import {
   RadioGroupItem,
 } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label";
-import { CommonCodeGroupManagementGrid } from "./grid/grid-code-group";
-import { CommonCodeManagementGrid } from "./grid/grid-code";
+import { CommonCodeGroupManagementGrid } from "./grids/grid-code-group";
+import { CommonCodeManagementGrid } from "./grids/grid-code";
 
 export default function Page() {
   const [userName, setUserName] = useState('')

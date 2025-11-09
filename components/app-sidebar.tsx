@@ -150,6 +150,11 @@ const data = {
       url: "/dashboard",
       icon: IconDatabase,
     },
+    {
+      name: "고정지출 관리",
+      url: "/dashboard/fixed-expenses",
+      icon: IconDatabase,
+    },
   ],
 
 }
