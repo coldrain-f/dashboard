@@ -263,7 +263,7 @@ const Grid = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div style={{ height: '550px' }}>
+    <div style={{ height: '425px' }}>
       <AgGridReact
         ref={grid}
         getRowId={params => params.data._id || params.data._key}

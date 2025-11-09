@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { FixedExpensesTotalGrid } from "./grids/calc-grid";
 
 export default function Page() {
   const [userName, setUserName] = useState('')
@@ -137,6 +138,18 @@ export default function Page() {
           setUserEmail('')
         }}
       />
+
+      <DataGridSingleLayout>
+        <DataGridHeader
+          title="카테고리별 합산 금액"
+          showAdd={false}
+          showDelete={false}
+          showSave={false}
+          showReset={false}
+        />
+        <FixedExpensesTotalGrid />
+      </DataGridSingleLayout>
+      <div className="mb-4"></div>
       <DataGridSingleLayout>
         <DataGridHeader title="고정 지출 목록" />
         <FixedExpensesGrid />
