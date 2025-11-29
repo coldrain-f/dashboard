@@ -2,15 +2,15 @@
 @import "tw-animate-css";
 
 @font-face {
-    font-family: 'Pretendard-Regular';
-    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
+  font-family: 'Pretendard-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
 }
 
 * {
   font-family: 'Pretendard-Regular', sans-serif;
-  
+
   @media (min-width: 1024px) {
     --radius: 0.6rem;
     --text-lg: 1.05rem;
@@ -27,6 +27,14 @@
   [data-slot="toggle-group-item"] {
     --spacing: 0.222222rem;
   }
+}
+
+/* LyteNyte Grid 전용 - 더 강한 선택자 */
+.lng-grid,
+.lng-grid *,
+[class*="lng-"],
+[class*="lng-"] * {
+  font-family: 'Pretendard-Regular', sans-serif !important;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -140,14 +148,13 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-.theme-scaled {
-  
-}
+.theme-scaled {}
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
