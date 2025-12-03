@@ -135,6 +135,7 @@ const MyGrid = () => {
     wrapText: true,
     // 유료버전
     floatingFilter: true,
+  
 
   };
 
@@ -189,6 +190,7 @@ const MyGrid = () => {
 
           // 유료버전
           rowNumbers={false}
+          readOnlyEdit={false}
 
           rowData={rowData}
           columnDefs={colDefs}
