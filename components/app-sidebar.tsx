@@ -33,6 +33,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { NavHouseholdLedgers } from "@/components/nav-household-ledger"
+import { Icon } from "lucide-react"
 
 const data = {
   user: {
@@ -145,6 +146,11 @@ const data = {
     }
   ],
   householdLedgers: [
+    {
+      name: "분류코드 관리",
+      url: "/dashboard/category-code-management",
+      icon: IconDatabase,
+    },
     {
       name: "가계부 관리",
       url: "/dashboard",
