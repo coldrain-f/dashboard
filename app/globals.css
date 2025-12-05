@@ -8,6 +8,12 @@
   font-style: normal;
 }
 
+/* ag-grid shadcn theme 전용*/
+.ag-theme-shadcn,
+.ag-theme-shadcn * {
+  font-family: 'Pretendard-Regular', sans-serif !important;
+}
+
 * {
   font-family: 'Pretendard-Regular', sans-serif;
 

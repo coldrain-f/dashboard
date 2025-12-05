@@ -1,0 +1,335 @@
+/* shadcn-ag-grid.css */
+
+/* ===== 체크박스 스타일 ===== */
+.ag-theme-quartz .ag-checkbox-input-wrapper {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid hsl(214.3, 31.8%, 91.4%);
+    background-color: transparent;
+}
+
+.ag-theme-quartz .ag-checkbox-input-wrapper.ag-checked {
+    background-color: hsl(222.2, 47.4%, 11.2%);
+    border-color: hsl(222.2, 47.4%, 11.2%);
+}
+
+.ag-theme-quartz .ag-checkbox-input-wrapper.ag-indeterminate {
+    background-color: hsl(222.2, 47.4%, 11.2%);
+    border-color: hsl(222.2, 47.4%, 11.2%);
+}
+
+.ag-theme-quartz .ag-checkbox-input-wrapper::after {
+    color: white;
+}
+
+/* ===== Input 포커스 스타일 ===== */
+.ag-theme-quartz .ag-text-field-input:focus {
+    border-color: hsl(222.2, 47.4%, 11.2%);
+    box-shadow: 0 0 0 2px hsl(222.2, 47.4%, 11.2%, 0.2);
+    outline: none;
+}
+
+.ag-theme-quartz .ag-picker-field-wrapper:focus-within {
+    border-color: hsl(222.2, 47.4%, 11.2%);
+    box-shadow: 0 0 0 2px hsl(222.2, 47.4%, 11.2%, 0.2);
+}
+
+/* ===== 셀 스타일 ===== */
+.ag-theme-quartz .ag-cell {
+    display: flex;
+    align-items: center;
+    line-height: 1.5;
+}
+
+.ag-theme-quartz .ag-cell-focus:not(.ag-cell-range-selected):focus-within {
+    border-color: hsl(222.2, 47.4%, 11.2%);
+    outline: none;
+}
+
+/* ===== 헤더 스타일 ===== */
+.ag-theme-quartz .ag-header-cell-text {
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.ag-theme-quartz .ag-header-cell-menu-button {
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+
+.ag-theme-quartz .ag-header-cell:hover .ag-header-cell-menu-button {
+    opacity: 1;
+}
+
+/* 정렬 아이콘 */
+.ag-theme-quartz .ag-sort-indicator-icon {
+    color: hsl(215.4, 16.3%, 46.9%);
+}
+
+/* ===== 페이지네이션 스타일 ===== */
+.ag-theme-quartz .ag-paging-panel {
+    border-top: 1px solid hsl(214.3, 31.8%, 91.4%);
+    height: 52px;
+    padding: 0 16px;
+    color: hsl(215.4, 16.3%, 46.9%);
+    font-size: 14px;
+}
+
+.ag-theme-quartz .ag-paging-button {
+    border: 1px solid hsl(214.3, 31.8%, 91.4%);
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin: 0 2px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    color: hsl(222.2, 84%, 4.9%);
+}
+
+.ag-theme-quartz .ag-paging-button:hover:not(.ag-disabled) {
+    background-color: hsl(210, 40%, 96.1%);
+    border-color: hsl(214.3, 31.8%, 85%);
+}
+
+.ag-theme-quartz .ag-paging-button.ag-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ===== 필터 팝업 스타일 ===== */
+.ag-theme-quartz .ag-filter {
+    background-color: hsl(0, 0%, 100%);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border: 1px solid hsl(214.3, 31.8%, 91.4%);
+}
+
+.ag-theme-quartz .ag-filter-toolpanel-header,
+.ag-theme-quartz .ag-filter-toolpanel-search {
+    padding: 12px;
+}
+
+.ag-theme-quartz .ag-mini-filter input {
+    border-radius: 6px;
+    border: 1px solid hsl(214.3, 31.8%, 91.4%);
+    padding: 8px 12px;
+}
+
+.ag-theme-quartz .ag-mini-filter input:focus {
+    border-color: hsl(222.2, 47.4%, 11.2%);
+    box-shadow: 0 0 0 2px hsl(222.2, 47.4%, 11.2%, 0.2);
+    outline: none;
+}
+
+/* ===== 컨텍스트 메뉴 스타일 ===== */
+.ag-theme-quartz .ag-menu {
+    background-color: hsl(0, 0%, 100%);
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    border: 1px solid hsl(214.3, 31.8%, 91.4%);
+    padding: 4px;
+}
+
+.ag-theme-quartz .ag-menu-option {
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.15s ease;
+}
+
+.ag-theme-quartz .ag-menu-option:hover {
+    background-color: hsl(210, 40%, 96.1%);
+}
+
+.ag-theme-quartz .ag-menu-option-active {
+    background-color: hsl(210, 40%, 96.1%);
+}
+
+/* ===== 로딩 오버레이 ===== */
+.ag-theme-quartz .ag-overlay-loading-center {
+    background-color: hsl(0, 0%, 100%, 0.9);
+    border-radius: 8px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+/* ===== 사이드바 스타일 ===== */
+.ag-theme-quartz .ag-side-bar {
+    border-left: 1px solid hsl(214.3, 31.8%, 91.4%);
+}
+
+.ag-theme-quartz .ag-side-button-button {
+    border-radius: 4px;
+    margin: 4px;
+    transition: background-color 0.15s ease;
+}
+
+.ag-theme-quartz .ag-side-button-button:hover {
+    background-color: hsl(210, 40%, 96.1%);
+}
+
+/* ===== 툴팁 스타일 ===== */
+.ag-theme-quartz .ag-tooltip {
+    background-color: hsl(222.2, 84%, 4.9%);
+    color: hsl(210, 40%, 98%);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+/* ===== 드래그 & 드롭 ===== */
+.ag-theme-quartz .ag-dnd-ghost {
+    background-color: hsl(0, 0%, 100%);
+    border-radius: 6px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    border: 1px solid hsl(214.3, 31.8%, 91.4%);
+    padding: 8px 12px;
+}
+
+/* ===== 스크롤바 스타일 ===== */
+.ag-theme-quartz ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.ag-theme-quartz ::-webkit-scrollbar-track {
+    background: hsl(210, 40%, 98%);
+    border-radius: 4px;
+}
+
+.ag-theme-quartz ::-webkit-scrollbar-thumb {
+    background: hsl(214.3, 31.8%, 80%);
+    border-radius: 4px;
+}
+
+.ag-theme-quartz ::-webkit-scrollbar-thumb:hover {
+    background: hsl(214.3, 31.8%, 70%);
+}
+
+/* ========================================
+   다크 모드 스타일
+   ======================================== */
+
+/* 체크박스 (다크) */
+.dark .ag-theme-quartz .ag-checkbox-input-wrapper {
+    border-color: hsl(217.2, 32.6%, 17.5%);
+}
+
+.dark .ag-theme-quartz .ag-checkbox-input-wrapper.ag-checked {
+    background-color: hsl(210, 40%, 98%);
+    border-color: hsl(210, 40%, 98%);
+}
+
+.dark .ag-theme-quartz .ag-checkbox-input-wrapper.ag-checked::after {
+    color: hsl(222.2, 84%, 4.9%);
+}
+
+/* Input 포커스 (다크) */
+.dark .ag-theme-quartz .ag-text-field-input:focus {
+    border-color: hsl(210, 40%, 98%);
+    box-shadow: 0 0 0 2px hsl(210, 40%, 98%, 0.2);
+}
+
+.dark .ag-theme-quartz .ag-picker-field-wrapper:focus-within {
+    border-color: hsl(210, 40%, 98%);
+    box-shadow: 0 0 0 2px hsl(210, 40%, 98%, 0.2);
+}
+
+/* 셀 포커스 (다크) */
+.dark .ag-theme-quartz .ag-cell-focus:not(.ag-cell-range-selected):focus-within {
+    border-color: hsl(210, 40%, 98%);
+}
+
+/* 정렬 아이콘 (다크) */
+.dark .ag-theme-quartz .ag-sort-indicator-icon {
+    color: hsl(215, 20.2%, 65.1%);
+}
+
+/* 페이지네이션 (다크) */
+.dark .ag-theme-quartz .ag-paging-panel {
+    border-top-color: hsl(217.2, 32.6%, 17.5%);
+    color: hsl(215, 20.2%, 65.1%);
+}
+
+.dark .ag-theme-quartz .ag-paging-button {
+    border-color: hsl(217.2, 32.6%, 17.5%);
+    color: hsl(210, 40%, 98%);
+}
+
+.dark .ag-theme-quartz .ag-paging-button:hover:not(.ag-disabled) {
+    background-color: hsl(217.2, 32.6%, 17.5%);
+    border-color: hsl(217.2, 32.6%, 25%);
+}
+
+/* 필터 팝업 (다크) */
+.dark .ag-theme-quartz .ag-filter {
+    background-color: hsl(222.2, 84%, 4.9%);
+    border-color: hsl(217.2, 32.6%, 17.5%);
+}
+
+.dark .ag-theme-quartz .ag-mini-filter input {
+    background-color: hsl(222.2, 84%, 4.9%);
+    border-color: hsl(217.2, 32.6%, 17.5%);
+    color: hsl(210, 40%, 98%);
+}
+
+.dark .ag-theme-quartz .ag-mini-filter input:focus {
+    border-color: hsl(210, 40%, 98%);
+    box-shadow: 0 0 0 2px hsl(210, 40%, 98%, 0.2);
+}
+
+/* 컨텍스트 메뉴 (다크) */
+.dark .ag-theme-quartz .ag-menu {
+    background-color: hsl(222.2, 84%, 4.9%);
+    border-color: hsl(217.2, 32.6%, 17.5%);
+}
+
+.dark .ag-theme-quartz .ag-menu-option:hover {
+    background-color: hsl(217.2, 32.6%, 17.5%);
+}
+
+.dark .ag-theme-quartz .ag-menu-option-active {
+    background-color: hsl(217.2, 32.6%, 17.5%);
+}
+
+/* 로딩 오버레이 (다크) */
+.dark .ag-theme-quartz .ag-overlay-loading-center {
+    background-color: hsl(222.2, 84%, 4.9%, 0.9);
+    color: hsl(210, 40%, 98%);
+}
+
+/* 사이드바 (다크) */
+.dark .ag-theme-quartz .ag-side-bar {
+    border-left-color: hsl(217.2, 32.6%, 17.5%);
+}
+
+.dark .ag-theme-quartz .ag-side-button-button:hover {
+    background-color: hsl(217.2, 32.6%, 17.5%);
+}
+
+/* 툴팁 (다크) */
+.dark .ag-theme-quartz .ag-tooltip {
+    background-color: hsl(210, 40%, 98%);
+    color: hsl(222.2, 84%, 4.9%);
+}
+
+/* 드래그 & 드롭 (다크) */
+.dark .ag-theme-quartz .ag-dnd-ghost {
+    background-color: hsl(222.2, 84%, 4.9%);
+    border-color: hsl(217.2, 32.6%, 17.5%);
+}
+
+/* 스크롤바 (다크) */
+.dark .ag-theme-quartz ::-webkit-scrollbar-track {
+    background: hsl(222.2, 84%, 4.9%);
+}
+
+.dark .ag-theme-quartz ::-webkit-scrollbar-thumb {
+    background: hsl(217.2, 32.6%, 30%);
+}
+
+.dark .ag-theme-quartz ::-webkit-scrollbar-thumb:hover {
+    background: hsl(217.2, 32.6%, 40%);
+}

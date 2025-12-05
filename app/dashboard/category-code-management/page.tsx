@@ -1,8 +1,6 @@
 'use client';
 import MainLayout from "@/components/common/layouts/main-layout";
-import DataGridHeader from "@/components/common/ui/data-grid-header";
 import { DataGridSearchSection } from "@/components/common/ui/data-grid-search-section";
-import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
 import {
@@ -24,13 +22,15 @@ import {
 import LyteNyteSampleGrid from "./grids/grid";
 import DataGridDualLayout from "@/components/common/layouts/data-grid-dual-layout";
 import { MajorCategoryGrid } from "./grids/grid-code-group";
+import ShadcnAgGrid from "./grids/grid-claude";
+import DataGridHeader from "@/components/common/ui/data-grid-header";
 
 export default function Page() {
   const [userName, setUserName] = useState('')
   const [userEmail, setUserEmail] = useState('')
 
   const searchFields = [
-   
+
     {
       label: '카테고리',
       component: (
@@ -72,10 +72,12 @@ export default function Page() {
         <div>
           <DataGridHeader title="대분류" />
           <MajorCategoryGrid />
+          {/* <ShadcnAgGrid /> */}
         </div>
         <div>
-          <DataGridHeader title="소분류" />
-          {/* <LyteNyteSampleGrid /> */}
+
+          <ShadcnAgGrid />
+
         </div>
       </DataGridDualLayout>
     </MainLayout>
