@@ -3,11 +3,6 @@ import MainLayout from "@/components/common/layouts/main-layout";
 import { DataGridSearchSection } from "@/components/common/ui/data-grid-search-section";
 import { useState } from "react";
 
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/ui/radio-group"
-import { Label } from "@/components/ui/label";
 import DataGridSingleLayout from "@/components/common/layouts/data-grid-single-layout";
 
 import {
@@ -19,11 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import LyteNyteSampleGrid from "./grids/grid";
-import DataGridDualLayout from "@/components/common/layouts/data-grid-dual-layout";
-import { MajorCategoryGrid } from "./grids/grid-code-group";
 import ShadcnAgGrid from "./grids/grid-claude";
-import DataGridHeader from "@/components/common/ui/data-grid-header";
 
 export default function Page() {
   const [userName, setUserName] = useState('')
@@ -32,7 +23,7 @@ export default function Page() {
   const searchFields = [
 
     {
-      label: '카테고리',
+      label: '상태',
       component: (
         <Select>
           <SelectTrigger className="w-full">
@@ -40,14 +31,10 @@ export default function Page() {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>카테고리</SelectLabel>
-              <SelectItem value="Housing">주거비</SelectItem>
-              <SelectItem value="Finance">금융</SelectItem>
-              <SelectItem value="Insurance">보험</SelectItem>
-              <SelectItem value="Telecom">통신비</SelectItem>
-              <SelectItem value="Transportation">교통비</SelectItem>
-              <SelectItem value="Subscription">구독료</SelectItem>
-              <SelectItem value="Others">기타</SelectItem>
+              <SelectLabel>Status</SelectLabel>
+              <SelectItem value="ALL">전체</SelectItem>
+              <SelectItem value="Active">Active</SelectItem>
+              <SelectItem value="InActive">InActive</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
@@ -56,7 +43,7 @@ export default function Page() {
   ]
 
   return (
-    <MainLayout title="분류코드 관리">
+    <MainLayout title="회원 관리">
       <DataGridSearchSection
         fields={searchFields}
         onSearch={() => console.log({ userName, userEmail })}
@@ -68,18 +55,10 @@ export default function Page() {
 
 
       <div className="mb-10"></div>
-      <DataGridDualLayout>
-        <div>
-          <DataGridHeader title="대분류" />
-          <MajorCategoryGrid />
-          {/* <ShadcnAgGrid /> */}
-        </div>
-        <div>
+      <DataGridSingleLayout >
+        <ShadcnAgGrid />
+      </DataGridSingleLayout>
 
-          <ShadcnAgGrid />
-
-        </div>
-      </DataGridDualLayout>
     </MainLayout>
   )
 }

@@ -1,10 +1,13 @@
 import React, { useState, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import type { ColDef, SelectionColumnDef, RowSelectionOptions } from "ag-grid-community";
-import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
+import { ModuleRegistry } from 'ag-grid-community';
+import { AllEnterpriseModule } from 'ag-grid-enterprise';
 import { AG_GRID_LOCALE_KR } from '@ag-grid-community/locale';
+import { Button } from '@/components/ui/button';
+import { IconDeviceFloppy, IconMinus, IconPlus, IconRefresh } from '@tabler/icons-react';
 
-ModuleRegistry.registerModules([AllCommunityModule]);
+ModuleRegistry.registerModules([AllEnterpriseModule]);
 
 // shadcn/ui 스타일과 어울리는 AG Grid 테마
 const shadcnGridStyles = `
@@ -226,12 +229,14 @@ export default function ShadcnAgGrid() {
             headerName: 'Name',
             flex: 2,
             minWidth: 200,
+            filter: 'agTextColumnFilter',  // 텍스트 필터
         },
         {
             field: 'email',
             headerName: 'Email',
             flex: 2,
             minWidth: 200,
+            filter: 'agTextColumnFilter',  // 텍스트 필터
         },
         {
             field: 'role',
@@ -250,18 +255,19 @@ export default function ShadcnAgGrid() {
             headerName: 'Last Active',
             flex: 1,
             minWidth: 120,
+            filter: 'agDateColumnFilter',  // 날짜 필터
         },
     ])
 
     const [rowData, setRowData] = useState<IRow[]>([
-        { name: "Alice Johnson", email: "", role: "Administrator", status: "Active", lastActive: "2024-06-20" },
-        { name: "Bob Smith", email: "", role: "Editor", status: "Inactive", lastActive: "2024-05-15" },
-        { name: "Charlie Brown", email: "", role: "Viewer", status: "Active", lastActive: "2024-06-18" },
-        { name: "Diana Prince", email: "", role: "Editor", status: "Active", lastActive: "2024-06-19" },
-        { name: "Ethan Hunt", email: "", role: "Administrator", status: "Inactive", lastActive: "2024-04-30" },
-        { name: "Fiona Gallagher", email: "", role: "Viewer", status: "Active", lastActive: "2024-06-17" },
-        { name: "George Martin", email: "", role: "Editor", status: "Active", lastActive: "2024-06-16" },
-        { name: "Hannah Baker", email: "", role: "Viewer", status: "Inactive", lastActive: "2024-03-22" },
+        { name: "Alice Johnson", email: "alice.johnson@example.com", role: "Administrator", status: "Active", lastActive: "2024-06-20" },
+        { name: "Bob Smith", email: "bob.smith@example.com", role: "Editor", status: "Inactive", lastActive: "2024-05-15" },
+        { name: "Charlie Brown", email: "charlie.brown@example.com", role: "Viewer", status: "Active", lastActive: "2024-06-18" },
+        { name: "Diana Prince", email: "diana.prince@example.com", role: "Editor", status: "Active", lastActive: "2024-06-19" },
+        { name: "Ethan Hunt", email: "ethan.hunt@example.com", role: "Administrator", status: "Inactive", lastActive: "2024-04-30" },
+        { name: "Fiona Gallagher", email: "fiona.gallagher@example.com", role: "Viewer", status: "Active", lastActive: "2024-06-17" },
+        { name: "George Martin", email: "george.martin@example.com", role: "Editor", status: "Active", lastActive: "2024-06-16" },
+        { name: "Hannah Baker", email: "hannah.baker@example.com", role: "Viewer", status: "Inactive", lastActive: "2024-03-22" },
     ])
 
     const defaultColDef = useMemo(() => ({
@@ -295,7 +301,7 @@ export default function ShadcnAgGrid() {
         <div className={darkMode ? 'dark' : ''}>
             <style>{shadcnGridStyles}</style>
             <div className={`p-8 transition-colors duration-200 ${darkMode ? 'bg-slate-950' : 'bg-slate-50'}`}>
-                <div className="max-w-6xl mx-auto space-y-6">
+                <div className="mx-auto space-y-6">
                     {/* Header */}
                     <div className="flex items-center justify-between">
                         <div className="space-y-1">
@@ -306,32 +312,69 @@ export default function ShadcnAgGrid() {
                                 팀원 정보와 계정 접근 권한을 관리할 수 있습니다.
                             </p>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex gap-2 justify-end mb-2">
                             {/* Dark mode toggle */}
-                            <button
-                                onClick={() => setDarkMode(!darkMode)}
-                                className={`p-2.5 rounded-lg border transition-all duration-200 ${darkMode
-                                    ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 hover:border-slate-600'
-                                    : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100 hover:border-slate-300'
-                                    }`}
-                                aria-label="다크모드 토글"
+                            {darkMode &&
+                                <Button
+                                    onClick={() => setDarkMode(!darkMode)}
+                                    className={`rounded-lg border transition-all duration-200 ${darkMode
+                                        ? 'border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 hover:border-slate-600'
+                                        : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-100 hover:border-slate-300'
+                                        }`}
+                                    aria-label="다크모드 토글"
+                                >
+                                    {darkMode ? '☀️' : '🌙'}
+                                </Button>
+                            }
+                            <Button
+                                size="sm"
+                                className="cursor-pointer gap-2 bg-slate-50 text-slate-600 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 transition-all duration-200 rounded-lg"
+                                onClick={() => { }}
                             >
-                                {darkMode ? '☀️' : '🌙'}
-                            </button>
-                            {/* Add button */}
-                            <button className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${darkMode
-                                ? 'bg-white text-slate-900 hover:bg-slate-100'
-                                : 'bg-slate-900 text-white hover:bg-slate-800'
-                                }`}>
-                                + 회원 추가
-                            </button>
+                                <IconRefresh />
+                                초기화
+                            </Button>
+
+
+                            <Button
+                                variant={"outline"}
+                                size={"sm"}
+                                className="cursor-pointer"
+                                onClick={() => { }}
+                            >
+                                <IconPlus />
+                                행 추가
+                            </Button>
+
+
+                            <Button
+                                variant={"outline"}
+                                size={"sm"}
+                                className="cursor-pointer"
+                                onClick={() => { }}
+                            >
+                                <IconMinus />
+                                행 삭제
+                            </Button>
+
+
+                            <Button
+                                variant={"default"}
+                                size={"sm"}
+                                className="cursor-pointer"
+                                onClick={() => { }}
+                            >
+                                <IconDeviceFloppy />
+                                저장
+                            </Button>
+
                         </div>
                     </div>
 
                     {/* AG Grid */}
                     <div
                         className={`ag-theme-shadcn rounded-lg shadow-sm ${darkMode ? 'shadow-slate-900/50' : 'shadow-slate-200/50'}`}
-                        style={{ height: 450, width: '100%' }}
+                        style={{ height: 500, width: '100%' }}
                     >
                         <AgGridReact
                             rowData={rowData}
