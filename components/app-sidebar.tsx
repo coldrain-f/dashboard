@@ -165,10 +165,15 @@ const data = {
   ],
   samples: [
     {
-      name: "샘플 그리드",
+      name: "샘플 싱글 그리드",
       url: "/dashboard/category-code-management",
       icon: IconDatabase,
     },
+    {
+      name: "샘플 듀얼 그리드",
+      url: "#",
+      icon: IconDatabase,
+    }
   ]
 
 }

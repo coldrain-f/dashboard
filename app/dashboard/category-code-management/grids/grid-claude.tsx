@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import type { ColDef, SelectionColumnDef, RowSelectionOptions, ColGroupDef } from "ag-grid-community";
 import { ModuleRegistry } from 'ag-grid-community';
@@ -6,9 +6,12 @@ import { AllEnterpriseModule } from 'ag-grid-enterprise';
 import { AG_GRID_LOCALE_KR } from '@ag-grid-community/locale';
 import { Button } from '@/components/ui/button';
 import { IconDeviceFloppy, IconMinus, IconPlus, IconRefresh } from '@tabler/icons-react';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import CustomLoadingOverlay from "@/components/common/ag-grid/ag-grid-spinner-loading-overlay"
 
 ModuleRegistry.registerModules([AllEnterpriseModule]);
+
+
 
 // shadcn/ui 스타일과 어울리는 AG Grid 테마
 const shadcnGridStyles = `
@@ -247,7 +250,9 @@ const TextCellRenderer = (props: any) => {
     );
 };
 
+
 const ShadcnSelectCellRenderer = (props: any) => {
+    const options = props.colDef.cellRendererParams?.options || [];
     const handleValueChange = (newValue: string) => {
         props.setValue(newValue);  // AG Grid 셀 값 업데이트
     };
@@ -260,31 +265,9 @@ const ShadcnSelectCellRenderer = (props: any) => {
                 </SelectTrigger>
                 <SelectContent>
                     <SelectGroup>
-                        <SelectItem value="Administrator">Administrator</SelectItem>
-                        <SelectItem value="Editor">Editor</SelectItem>
-                        <SelectItem value="Viewer">Viewer</SelectItem>
-                    </SelectGroup>
-                </SelectContent>
-            </Select>
-        </div>
-    );
-};
-
-const ShadcnActiveSelectCellRenderer = (props: any) => {
-    const handleValueChange = (newValue: string) => {
-        props.setValue(newValue);  // AG Grid 셀 값 업데이트
-    };
-
-    return (
-        <div className="w-full h-full flex items-center" style={{ padding: '0 4px' }}>
-            <Select value={props.value} onValueChange={handleValueChange}>
-                <SelectTrigger className="w-full h-8 border-none shadow-none bg-transparent focus:ring-0">
-                    <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectGroup>
-                        <SelectItem value="Active">Active</SelectItem>
-                        <SelectItem value="Inactive">Inactive</SelectItem>
+                        {options.map((opt: string) => (
+                            <SelectItem key={opt} value={opt}>{opt}</SelectItem>
+                        ))}
                     </SelectGroup>
                 </SelectContent>
             </Select>
@@ -305,7 +288,7 @@ export default function ShadcnAgGrid() {
                     flex: 2,
                     minWidth: 200,
                     filter: 'agTextColumnFilter',  // 텍스트 필터
-                    editable: false,
+                    cellRenderer: TextCellRenderer,
                 },
                 {
                     field: 'email',
@@ -323,10 +306,10 @@ export default function ShadcnAgGrid() {
             flex: 1,
             minWidth: 120,
             cellEditor: "agSelectCellEditor",
-            cellEditorParams: {
-                values: ["Administrator", "Editor", "Viewer"],
-            },
             cellRenderer: ShadcnSelectCellRenderer,  // 커스텀 렌더러 추가
+            cellRendererParams: {
+                options: ['Administrator', 'Editor', 'Viewer'],
+            },
             editable: false,
         },
         {
@@ -337,7 +320,10 @@ export default function ShadcnAgGrid() {
                     headerName: 'Status',
                     flex: 1,
                     minWidth: 120,
-                    cellRenderer: ShadcnActiveSelectCellRenderer
+                    cellRenderer: ShadcnSelectCellRenderer,
+                    cellRendererParams: {
+                        options: ['Active', 'Inactive'],
+                    },
                 },
                 {
                     field: 'isLocked',
@@ -396,6 +382,16 @@ export default function ShadcnAgGrid() {
     >(() => {
         return { mode: "multiRow" };
     }, []);
+
+    const [loading, setLoading] = useState(true)
+
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 2000)
+    }, [])
+
 
     return (
         <div className={darkMode ? 'dark' : ''}>
@@ -488,6 +484,9 @@ export default function ShadcnAgGrid() {
                             animateRows={true}
                             pagination={true}
                             paginationPageSize={20}
+
+                            loadingOverlayComponent={CustomLoadingOverlay}
+                            loading={loading}
                         />
                     </div>
 
