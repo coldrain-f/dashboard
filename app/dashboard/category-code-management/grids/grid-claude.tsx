@@ -243,6 +243,9 @@ const SelectCellRenderer = (props: any) => {
 };
 
 const TextCellRenderer = (props: any) => {
+    if (props.node.group) {
+        return null;
+    }
     return (
         <div className="w-full h-10 flex items-center px-3 border border-slate-200 rounded bg-white hover:border-slate-300">
             {props.value}
@@ -252,6 +255,20 @@ const TextCellRenderer = (props: any) => {
 
 
 const ShadcnSelectCellRenderer = (props: any) => {
+    // 그룹 행이면 기본 값만 표시
+    if (props.node.group) {
+        return (
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                height: '42px',  // ag-row-height와 동일하게
+                lineHeight: '42px'
+            }}>
+                {props.value}
+            </div>
+        );
+    }
+
     const options = props.colDef.cellRendererParams?.options || [];
     const handleValueChange = (newValue: string) => {
         props.setValue(newValue);  // AG Grid 셀 값 업데이트
@@ -311,6 +328,7 @@ export default function ShadcnAgGrid() {
                 options: ['Administrator', 'Editor', 'Viewer'],
             },
             editable: false,
+            rowGroup: true,
         },
         {
             headerName: "Status",
@@ -324,6 +342,7 @@ export default function ShadcnAgGrid() {
                     cellRendererParams: {
                         options: ['Active', 'Inactive'],
                     },
+                    rowGroup: false,
                 },
                 {
                     field: 'isLocked',
@@ -366,6 +385,12 @@ export default function ShadcnAgGrid() {
         autoHeight: false,
         floatingFilter: true,
     }), []);
+
+    const autoGroupColumnDef = useMemo<ColDef>(() => {
+        return {
+            minWidth: 200,
+        };
+    }, []);
 
     const selectionColumnDef = useMemo<SelectionColumnDef>(() => {
         return {
@@ -487,6 +512,11 @@ export default function ShadcnAgGrid() {
 
                             loadingOverlayComponent={CustomLoadingOverlay}
                             loading={loading}
+
+                            // Group
+                            autoGroupColumnDef={autoGroupColumnDef}
+                            rowGroupPanelShow={"always"}
+                            groupDefaultExpanded={1}
                         />
                     </div>
 
