@@ -43,7 +43,7 @@ export default function Page() {
   ]
 
   return (
-    <MainLayout title="회원 관리">
+    <MainLayout title="샘플 그리드">
       <DataGridSearchSection
         fields={searchFields}
         onSearch={() => console.log({ userName, userEmail })}

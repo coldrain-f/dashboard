@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/sidebar"
 import { NavHouseholdLedgers } from "@/components/nav-household-ledger"
 import { Icon } from "lucide-react"
+import { NavSamples } from "./nav-samples"
 
 const data = {
   user: {
@@ -162,6 +163,13 @@ const data = {
       icon: IconDatabase,
     },
   ],
+  samples: [
+    {
+      name: "샘플 그리드",
+      url: "/dashboard/category-code-management",
+      icon: IconDatabase,
+    },
+  ]
 
 }
 
@@ -188,6 +196,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
         <NavDocuments items={data.documents} />
         <NavHouseholdLedgers items={data.householdLedgers} />
+        <NavSamples items={data.samples} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
