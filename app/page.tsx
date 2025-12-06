@@ -150,9 +150,9 @@ export default function Home() {
   return (
 
     <div style={{ height: "400px", width: "100%" }}>
-      <LyteNyte
+      {/* <LyteNyte
         grid={grid}
-      />
+      /> */}
     </div>
 
   );
