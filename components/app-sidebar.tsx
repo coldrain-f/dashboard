@@ -148,6 +148,12 @@ const data = {
   ],
   householdLedgers: [
     {
+      name: "가계부",
+      url: "/dashboard/handbook",
+      icon: IconDatabase,
+    },
+
+    {
       name: "분류코드 관리",
       url: "/dashboard/category-code-management",
       icon: IconDatabase,
