@@ -8,10 +8,10 @@ import { Button } from '@/components/ui/button';
 import { IconDeviceFloppy, IconMinus, IconPlus, IconRefresh } from '@tabler/icons-react';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import CustomLoadingOverlay from "@/components/common/ag-grid/ag-grid-spinner-loading-overlay"
+import textCellRenderer from '@/components/shadcn-grid/renderer/textCellRenderer';
+import selectCellRenderer from '@/components/shadcn-grid/renderer/selectCellRenderer';
 
 ModuleRegistry.registerModules([AllEnterpriseModule]);
-
-
 
 interface IRow {
     companyName: string; // 기업명
@@ -102,55 +102,7 @@ const StatusSelectCellRenderer = (props: any) => {
     );
 };
 
-const TextCellRenderer = (props: any) => {
-    if (props.node.group) {
-        return null;
-    }
-    return (
-        <div className="w-full h-10 flex items-center px-3 border border-slate-200 rounded bg-white hover:border-slate-300">
-            {props.value}
-        </div>
-    );
-};
 
-
-const ShadcnSelectCellRenderer = (props: any) => {
-    // 그룹 행이면 기본 값만 표시
-    if (props.node.group) {
-        return (
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                height: '42px',  // ag-row-height와 동일하게
-                lineHeight: '42px'
-            }}>
-                {props.value}
-            </div>
-        );
-    }
-
-    const options = props.colDef.cellRendererParams?.options || [];
-    const handleValueChange = (newValue: string) => {
-        props.setValue(newValue);  // AG Grid 셀 값 업데이트
-    };
-
-    return (
-        <div className="w-full h-full flex items-center" style={{ padding: '0 4px' }}>
-            <Select value={props.value} onValueChange={handleValueChange}>
-                <SelectTrigger className="w-full h-8 border-none shadow-none bg-transparent focus:ring-0">
-                    <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectGroup>
-                        {options.map((opt: string) => (
-                            <SelectItem key={opt} value={opt}>{opt}</SelectItem>
-                        ))}
-                    </SelectGroup>
-                </SelectContent>
-            </Select>
-        </div>
-    );
-};
 
 
 // // 차트 색상 설정
@@ -238,14 +190,14 @@ export default function ApplicationTrackerGrid() {
                     headerName: '회사명',
                     width: 200,
                     filter: 'agTextColumnFilter',
-                    cellRenderer: TextCellRenderer,
+                    cellRenderer: textCellRenderer,
                 },
                 {
                     field: 'industry',
                     headerName: '산업군',
                     width: 140,
                     filter: 'agTextColumnFilter',
-                    cellRenderer: ShadcnSelectCellRenderer,
+                    cellRenderer: selectCellRenderer,
                     cellRendererParams: {
                         options: ['IT', '금융', '제조', "유통", "서비스", "게임", "컨설팅"],
                     },
@@ -255,7 +207,7 @@ export default function ApplicationTrackerGrid() {
                     headerName: '회사규모',
                     width: 140,
                     filter: 'agTextColumnFilter',
-                    cellRenderer: ShadcnSelectCellRenderer,
+                    cellRenderer: selectCellRenderer,
                     cellRendererParams: {
                         options: ["대기업", "중견기업", "중소기업", "스타트업", "외국계"],
                     },
@@ -270,7 +222,7 @@ export default function ApplicationTrackerGrid() {
                     headerName: '직무',
                     width: 160,
                     filter: 'agTextColumnFilter',
-                    cellRenderer: TextCellRenderer,
+                    cellRenderer: textCellRenderer,
                 },
                 {
                     field: 'appliedDate',
@@ -299,7 +251,7 @@ export default function ApplicationTrackerGrid() {
                             field: 'stageOneType',
                             headerName: '전형',
                             width: 160,
-                            cellRenderer: ShadcnSelectCellRenderer,
+                            cellRenderer: selectCellRenderer,
                             cellRendererParams: {
                                 options: ["서류", "인적성", "필기", "코딩테스트", "과제", "면접"],
                             },
@@ -322,7 +274,7 @@ export default function ApplicationTrackerGrid() {
                             field: 'stageTwoType',
                             headerName: '전형',
                             width: 160,
-                            cellRenderer: ShadcnSelectCellRenderer,
+                            cellRenderer: selectCellRenderer,
                             cellRendererParams: {
                                 options: ["서류", "인적성", "필기", "코딩테스트", "과제", "면접"],
                             },
@@ -345,7 +297,7 @@ export default function ApplicationTrackerGrid() {
                             field: 'stageThreeType',
                             headerName: '전형',
                             width: 160,
-                            cellRenderer: ShadcnSelectCellRenderer,
+                            cellRenderer: selectCellRenderer,
                             cellRendererParams: {
                                 options: ["서류", "인적성", "필기", "코딩테스트", "과제", "면접"],
                             },
@@ -368,7 +320,7 @@ export default function ApplicationTrackerGrid() {
                             field: 'stageFourType',
                             headerName: '전형',
                             width: 160,
-                            cellRenderer: ShadcnSelectCellRenderer,
+                            cellRenderer: selectCellRenderer,
                             cellRendererParams: {
                                 options: ["서류", "인적성", "필기", "코딩테스트", "과제", "면접"],
                             },
