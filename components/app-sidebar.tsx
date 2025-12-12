@@ -148,26 +148,35 @@ const data = {
   ],
   householdLedgers: [
     {
-      name: "가계부",
+      name: "상품관리(저축/보험/대출/카드)",
       url: "/dashboard/handbook",
       icon: IconDatabase,
     },
-
     {
-      name: "분류코드 관리",
-      url: "/dashboard/category-code-management",
+      name: "지출내역 관리",
+      url: "/dashboard/handbook",
       icon: IconDatabase,
     },
     {
-      name: "가계부 관리",
-      url: "/dashboard",
+      name: "수입내역 관리",
+      url: "/dashboard/handbook",
       icon: IconDatabase,
     },
-    {
-      name: "고정지출 관리",
-      url: "/dashboard/fixed-expenses",
-      icon: IconDatabase,
-    },
+    // {
+    //   name: "분류코드 관리",
+    //   url: "/dashboard/category-code-management",
+    //   icon: IconDatabase,
+    // },
+    // {
+    //   name: "가계부 관리",
+    //   url: "/dashboard",
+    //   icon: IconDatabase,
+    // },
+    // {
+    //   name: "고정지출 관리",
+    //   url: "/dashboard/fixed-expenses",
+    //   icon: IconDatabase,
+    // },
   ],
   samples: [
     {

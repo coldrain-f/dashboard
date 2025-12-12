@@ -32,20 +32,20 @@ export default function ExpenseGrid() {
         {
             field: 'description',
             headerName: '지출내역',
-            width: 200,
+            // width: 200,
             cellRenderer: textCellRenderer,
 
         },
         {
             field: 'amount',
             headerName: '금액',
-            width: 150,
+            // width: 150,
             cellRenderer: textCellRenderer,
         },
         {
             field: 'category',
             headerName: '대분류',
-            width: 150,
+            // width: 150,
             cellRenderer: selectCellRenderer,
             cellRendererParams: {
                 options: ['식비', '카페/간식', '술/유흥', '생활', '온라인쇼핑', '패션/쇼핑', '뷰티/미용', '교통', '자동차', '주거/통신', '의료/건강', '금융', '문화/여가', '여행/숙박', '교육/학습', '자녀/육아', '반려동물', '경조/선물', '가족/부모'],
@@ -54,7 +54,7 @@ export default function ExpenseGrid() {
         {
             field: 'subCategory',
             headerName: '소분류',
-            width: 150,
+            // width: 150,
             cellRenderer: selectCellRenderer,
             cellRendererParams: {
                 options: ['IT', '금융', '제조', "유통", "서비스", "게임", "컨설팅"],
@@ -63,7 +63,7 @@ export default function ExpenseGrid() {
         {
             field: 'cardName',
             headerName: '카드명',
-            width: 150,
+            // width: 150,
             cellRenderer: selectCellRenderer,
             cellRendererParams: {
                 options: ['IT', '금융', '제조', "유통", "서비스", "게임", "컨설팅"],
@@ -72,7 +72,7 @@ export default function ExpenseGrid() {
         {
             field: 'store',
             headerName: '사용처',
-            width: 200,
+            // width: 200,
             cellRenderer: selectCellRenderer,
             cellRendererParams: {
                 options: ['IT', '금융', '제조', "유통", "서비스", "게임", "컨설팅"],
@@ -105,6 +105,7 @@ export default function ExpenseGrid() {
         singleClickEdit: false, // 한 번 클릭 편집
         autoHeight: false,
         floatingFilter: false,
+        flex: 1,
     }), []);
 
 

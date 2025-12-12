@@ -4,6 +4,7 @@ import { useState } from "react";
 import DataGridDualLayout, { GRID_RATIOS } from "@/components/common/layouts/data-grid-dual-layout";
 import ExpenseGrid from "./grids/expense-grid";
 import IncomeGrid from "./grids/Income-grid";
+import DataGridSingleLayout from "@/components/common/layouts/data-grid-single-layout";
 
 
 export default function Page() {
@@ -14,10 +15,10 @@ export default function Page() {
   return (
     <MainLayout title="가계부">
 
-      <DataGridDualLayout gridRatio={GRID_RATIOS.EQUAL} >
+      <DataGridSingleLayout>
+
         <ExpenseGrid />
-        <IncomeGrid />
-      </DataGridDualLayout>
+      </DataGridSingleLayout>
 
     </MainLayout>
   )
