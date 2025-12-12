@@ -173,6 +173,11 @@ const data = {
       name: "샘플 듀얼 그리드",
       url: "#",
       icon: IconDatabase,
+    },
+    {
+      name: "지원 현황 관리",
+      url: "/dashboard/application-tracker",
+      icon: IconDatabase
     }
   ]
 
