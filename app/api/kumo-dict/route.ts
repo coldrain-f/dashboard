@@ -48,6 +48,7 @@ export async function GET(req: NextRequest) {
   const sortField = searchParams.get('sortField') || 'id';
   const sortDir = searchParams.get('sortDir') === 'desc' ? 'DESC' : 'ASC';
   const missingKanji = searchParams.get('missingKanji') === 'true';
+  const isExport = searchParams.get('export') === 'true';
   const limit = endRow - startRow;
 
   const db = getDb();
@@ -75,6 +76,13 @@ export async function GET(req: NextRequest) {
   }
 
   const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+
+  if (isExport) {
+    const rows = db
+      .prepare(`SELECT id, headword, display, body FROM entries ${where} ORDER BY ${safeSortField} ${sortDir}`)
+      .all(...params);
+    return NextResponse.json({ data: rows });
+  }
 
   const rows = db
     .prepare(`SELECT id, headword, display, body FROM entries ${where} ORDER BY ${safeSortField} ${sortDir} LIMIT ? OFFSET ?`)

@@ -15,11 +15,45 @@ import { ModuleRegistry } from 'ag-grid-community';
 import { AllEnterpriseModule } from 'ag-grid-enterprise';
 import { AG_GRID_LOCALE_KR } from '@ag-grid-community/locale';
 import { Button } from '@/components/ui/button';
-import { IconDeviceFloppy, IconMinus, IconPlus, IconRefresh } from '@tabler/icons-react';
+import { IconDeviceFloppy, IconDownload, IconMinus, IconPlus, IconRefresh, IconUpload } from '@tabler/icons-react';
 import CustomLoadingOverlay from '@/components/common/ag-grid/ag-grid-spinner-loading-overlay';
 import textCellRenderer from '@/components/shadcn-grid/renderer/textCellRenderer';
 
 ModuleRegistry.registerModules([AllEnterpriseModule]);
+
+// CSV utilities
+function toCSVField(value: unknown): string {
+  const str = String(value ?? '');
+  if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+    return '"' + str.replace(/"/g, '""') + '"';
+  }
+  return str;
+}
+
+function parseCSV(text: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let field = '';
+  let inQuotes = false;
+  let i = 0;
+
+  while (i < text.length) {
+    const ch = text[i];
+    if (inQuotes) {
+      if (ch === '"' && text[i + 1] === '"') { field += '"'; i += 2; }
+      else if (ch === '"') { inQuotes = false; i++; }
+      else { field += ch; i++; }
+    } else {
+      if (ch === '"') { inQuotes = true; i++; }
+      else if (ch === ',') { row.push(field); field = ''; i++; }
+      else if (ch === '\r' && text[i + 1] === '\n') { row.push(field); rows.push(row); row = []; field = ''; i += 2; }
+      else if (ch === '\n' || ch === '\r') { row.push(field); rows.push(row); row = []; field = ''; i++; }
+      else { field += ch; i++; }
+    }
+  }
+  if (field || row.length > 0) { row.push(field); rows.push(row); }
+  return rows;
+}
 
 interface IEntry {
   id: number;
@@ -46,6 +80,7 @@ interface KumoDictGridProps {
 
 export default function KumoDictGrid({ search, bodySearch, missingKanji }: KumoDictGridProps) {
   const gridRef = useRef<AgGridReact<IEntry>>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(true);
   const searchRef = useRef(search);
   const bodySearchRef = useRef(bodySearch);
@@ -175,6 +210,78 @@ export default function KumoDictGrid({ search, bodySearch, missingKanji }: KumoD
     gridRef.current?.api.refreshServerSide({ purge: true });
   }, []);
 
+  const handleExport = useCallback(async () => {
+    const queryParams = new URLSearchParams({
+      search: searchRef.current,
+      bodySearch: bodySearchRef.current,
+      missingKanji: String(missingKanjiRef.current),
+      export: 'true',
+    });
+    const res = await fetch(`/api/kumo-dict?${queryParams}`);
+    const { data } = await res.json() as { data: IEntry[] };
+
+    const headers = ['id', 'headword', 'display', 'body'];
+    const csv = [
+      headers.join(','),
+      ...data.map((row) => headers.map((h) => toCSVField(row[h as keyof IEntry])).join(',')),
+    ].join('\n');
+
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `kumo-dict-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, []);
+
+  const handleFileChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const text = await file.text();
+    const rows = parseCSV(text);
+    if (rows.length < 2) return;
+
+    const headers = rows[0].map((h) => h.trim().toLowerCase());
+    const idx = {
+      id: headers.indexOf('id'),
+      headword: headers.indexOf('headword'),
+      display: headers.indexOf('display'),
+      body: headers.indexOf('body'),
+    };
+
+    if (idx.headword === -1) {
+      alert('CSV에 headword 열이 없습니다.');
+      e.target.value = '';
+      return;
+    }
+
+    const entries = rows.slice(1)
+      .filter((row) => row.some((c) => c.trim()))
+      .map((row) => ({
+        id: idx.id >= 0 ? parseInt(row[idx.id]) || null : null,
+        headword: row[idx.headword] ?? '',
+        display: idx.display >= 0 ? row[idx.display] ?? '' : '',
+        body: idx.body >= 0 ? row[idx.body] ?? '' : '',
+      }))
+      .filter((e) => e.headword);
+
+    if (entries.length === 0) { e.target.value = ''; return; }
+
+    const res = await fetch('/api/kumo-dict/import', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ entries }),
+    });
+    const { inserted, updated } = await res.json() as { inserted: number; updated: number };
+    alert(`가져오기 완료: 추가 ${inserted}건, 수정 ${updated}건`);
+
+    e.target.value = '';
+    setLoading(true);
+    gridRef.current?.api.refreshServerSide({ purge: true });
+  }, []);
+
   const onCellValueChanged = useCallback(async (event: any) => {
     const { data } = event;
     if (!data.id || data.id < 0) return;
@@ -192,7 +299,16 @@ export default function KumoDictGrid({ search, bodySearch, missingKanji }: KumoD
   return (
     <div className="space-y-3 mt-4">
       {/* Toolbar */}
+      <input ref={fileInputRef} type="file" accept=".csv" className="hidden" onChange={handleFileChange} />
       <div className="flex justify-end gap-2">
+        <Button variant="outline" size="sm" className="cursor-pointer" onClick={handleExport}>
+          <IconDownload />
+          CSV 내보내기
+        </Button>
+        <Button variant="outline" size="sm" className="cursor-pointer" onClick={() => fileInputRef.current?.click()}>
+          <IconUpload />
+          CSV 가져오기
+        </Button>
         <Button
           size="sm"
           className="cursor-pointer gap-2 bg-slate-50 text-slate-600 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 transition-all duration-200 rounded-lg"
