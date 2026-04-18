@@ -20,7 +20,7 @@ function escapeXml(str: string): string {
 }
 
 function formatBody(str: string): string {
-  return str
+  const lines = str
     .replace(/<br\s*\/?>/gi, '\n')   // <br> → 줄바꿈
     .replace(/<\/p>/gi, '\n')        // </p> → 줄바꿈
     .replace(/<\/div>/gi, '\n')      // </div> → 줄바꿈
@@ -29,9 +29,10 @@ function formatBody(str: string): string {
     .replace(/\n{3,}/g, '\n\n')      // 3줄 이상 연속 줄바꿈 → 2줄로
     .trim()
     .split('\n')
-    .map((line) => escapeXml(line.trim()))
-    .filter((line) => line.length > 0)
-    .join('<br/>');
+    .map((line) => escapeXml(line.trim()).replace(/ /g, '&nbsp;\u200B'))
+    .filter((line) => line.length > 0);
+
+  return lines.map((line) => `<tr><td>${line}</td></tr>`).join('\n');
 }
 
 function generateHTML(entries: Entry[]): string {
@@ -46,12 +47,14 @@ function generateHTML(entries: Entry[]): string {
         : '';
 
     return `  <idx:entry name="word" scriptable="yes" spell="yes">
-    <idx:orth value="${hw}">${inflSection}
+    <idx:orth value="${hw}">
+    ${inflSection}
     </idx:orth>
-    <b>${hw}</b><br/>
-    <font size="-1">${definition}</font>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+${definition}
+    </table>
   </idx:entry>
-  <hr/>`;
+  <mbp:pagebreak/>`;
   }).join('\n');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -101,7 +104,6 @@ function generateOPF(fileCount: number): string {
     <dc:identifier id="uid">kumo-jk-dictionary-${now}</dc:identifier>
     <x-metadata>
       <DictionaryInLanguage>ja</DictionaryInLanguage>
-      <DictionaryOutLanguage>ko</DictionaryOutLanguage>
       <DefaultLookupIndex>word</DefaultLookupIndex>
     </x-metadata>
   </metadata>
@@ -144,7 +146,7 @@ export async function GET() {
 
   const filename = `kumo-dict-kindle-${new Date().toISOString().slice(0, 10)}.zip`;
 
-  return new NextResponse(buffer, {
+  return new NextResponse(buffer as unknown as BodyInit, {
     headers: {
       'Content-Type': 'application/zip',
       'Content-Disposition': `attachment; filename="${filename}"`,
