@@ -15,7 +15,8 @@ import { ModuleRegistry } from 'ag-grid-community';
 import { AllEnterpriseModule } from 'ag-grid-enterprise';
 import { AG_GRID_LOCALE_KR } from '@ag-grid-community/locale';
 import { Button } from '@/components/ui/button';
-import { IconDeviceFloppy, IconDownload, IconMinus, IconPlus, IconRefresh, IconUpload } from '@tabler/icons-react';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { IconBook2, IconCheck, IconDeviceFloppy, IconDownload, IconMinus, IconPlus, IconRefresh, IconUpload, IconX } from '@tabler/icons-react';
 import CustomLoadingOverlay from '@/components/common/ag-grid/ag-grid-spinner-loading-overlay';
 import textCellRenderer from '@/components/shadcn-grid/renderer/textCellRenderer';
 
@@ -282,6 +283,45 @@ export default function KumoDictGrid({ search, bodySearch, missingKanji }: KumoD
     gridRef.current?.api.refreshServerSide({ purge: true });
   }, []);
 
+  const [kindlePhase, setKindlePhase] = useState<'idle' | 'generating' | 'done' | 'error'>('idle');
+  const [kindleProgress, setKindleProgress] = useState(0);
+
+  const handleKindleExport = useCallback(async () => {
+    setKindlePhase('generating');
+    setKindleProgress(0);
+
+    // 진행률 시뮬레이션: API 응답 전까지 0→88% 애니메이션
+    let prog = 0;
+    const timer = setInterval(() => {
+      prog = Math.min(prog + Math.random() * 10 + 4, 88);
+      setKindleProgress(Math.round(prog));
+    }, 300);
+
+    try {
+      const res = await fetch('/api/kumo-dict/kindle-export');
+      clearInterval(timer);
+
+      if (!res.ok) { setKindlePhase('error'); return; }
+
+      const blob = await res.blob();
+      const filename =
+        res.headers.get('Content-Disposition')?.match(/filename="([^"]+)"/)?.[1]
+        ?? 'kumo-dict-kindle.zip';
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      setKindleProgress(100);
+      setKindlePhase('done');
+    } catch {
+      clearInterval(timer);
+      setKindlePhase('error');
+    }
+  }, []);
+
   const onCellValueChanged = useCallback(async (event: any) => {
     const { data } = event;
     if (!data.id || data.id < 0) return;
@@ -298,9 +338,102 @@ export default function KumoDictGrid({ search, bodySearch, missingKanji }: KumoD
 
   return (
     <div className="space-y-3 mt-4">
+      {/* Kindle 사전 생성 다이얼로그 */}
+      <Dialog
+        open={kindlePhase !== 'idle'}
+        onOpenChange={(open) => { if (!open && kindlePhase !== 'generating') setKindlePhase('idle'); }}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <IconBook2 size={20} />
+              Kindle 사전 생성
+            </DialogTitle>
+          </DialogHeader>
+
+          {/* 생성 중 */}
+          {kindlePhase === 'generating' && (
+            <div className="space-y-4 py-2">
+              <p className="text-sm text-slate-600">사전 파일을 생성하고 있습니다. 잠시만 기다려주세요.</p>
+              <div className="space-y-1.5">
+                <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                  <div
+                    className="h-2 rounded-full bg-slate-800 transition-all duration-300 ease-out"
+                    style={{ width: `${kindleProgress}%` }}
+                  />
+                </div>
+                <p className="text-xs text-slate-400 text-right">{kindleProgress}%</p>
+              </div>
+            </div>
+          )}
+
+          {/* 완료 */}
+          {kindlePhase === 'done' && (
+            <div className="space-y-4 py-2">
+              <div className="flex items-center gap-2 text-emerald-600">
+                <IconCheck size={18} />
+                <span className="text-sm font-medium">ZIP 파일이 다운로드되었습니다.</span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-2">
+                <div className="h-2 rounded-full bg-emerald-500 w-full" />
+              </div>
+
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 space-y-3 text-sm">
+                <p className="font-semibold text-slate-800">Kindle 사전 등록 방법</p>
+                <ol className="space-y-3 text-slate-600 list-decimal list-inside leading-relaxed">
+                  <li>ZIP 파일의 압축을 해제합니다.</li>
+                  <li>
+                    압축 해제 폴더에서 변환 명령어를 실행합니다.
+                    <p className="mt-1.5 text-xs text-slate-400">Windows</p>
+                    <code className="block bg-slate-800 text-emerald-300 text-xs px-3 py-2 rounded-md font-mono select-all whitespace-pre-wrap break-all">
+                      {`"%LOCALAPPDATA%\\Amazon\\Kindle Previewer 3\\lib\\fc\\bin\\kindlegen.exe" kumo-dict\\content.opf -o kumo-dict.mobi`}
+                    </code>
+                    <p className="mt-1.5 text-xs text-slate-400">Mac</p>
+                    <code className="block bg-slate-800 text-emerald-300 text-xs px-3 py-2 rounded-md font-mono select-all">
+                      {`kindlegen kumo-dict/content.opf -o kumo-dict.mobi`}
+                    </code>
+                    <p className="mt-1.5 text-xs text-slate-500">※ 경로에 공백이 있으므로 반드시 따옴표로 감싸야 합니다.</p>
+                  </li>
+                  <li>
+                    생성된{' '}
+                    <span className="font-mono text-xs bg-slate-200 px-1 py-0.5 rounded">kumo-dict.mobi</span>
+                    {' '}파일을 Kindle에 전송합니다.
+                    <ul className="mt-1 ml-4 space-y-1 list-disc text-slate-500">
+                      <li>USB 연결 후 <span className="font-mono text-xs">documents</span> 폴더에 복사</li>
+                      <li>또는 Send-to-Kindle 이메일로 첨부 전송</li>
+                    </ul>
+                  </li>
+                  <li>Kindle 설정 → 언어와 사전 → 사전에서 등록한 사전을 선택합니다.</li>
+                </ol>
+              </div>
+            </div>
+          )}
+
+          {/* 오류 */}
+          {kindlePhase === 'error' && (
+            <div className="flex items-center gap-2 text-red-600 py-2">
+              <IconX size={18} />
+              <p className="text-sm">생성 중 오류가 발생했습니다. 다시 시도해주세요.</p>
+            </div>
+          )}
+
+          <DialogFooter>
+            {kindlePhase !== 'generating' && (
+              <Button variant="outline" size="sm" onClick={() => setKindlePhase('idle')}>
+                닫기
+              </Button>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Toolbar */}
       <input ref={fileInputRef} type="file" accept=".csv" className="hidden" onChange={handleFileChange} />
       <div className="flex justify-end gap-2">
+        <Button variant="outline" size="sm" className="cursor-pointer" onClick={handleKindleExport}>
+          <IconBook2 />
+          Kindle 사전 생성
+        </Button>
         <Button variant="outline" size="sm" className="cursor-pointer" onClick={handleExport}>
           <IconDownload />
           CSV 내보내기
