@@ -12,6 +12,8 @@ import KumoDictGrid from './grids/grid';
 export default function Page() {
   const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
+  const [bodySearchInput, setBodySearchInput] = useState('');
+  const [bodySearch, setBodySearch] = useState('');
   const [missingKanji, setMissingKanji] = useState(false);
 
   const searchFields = [
@@ -21,8 +23,19 @@ export default function Page() {
         <Input
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          onKeyDown={(e) => { if (e.key === 'Enter') setSearch(searchInput); }}
+          onKeyDown={(e) => { if (e.key === 'Enter') { setSearch(searchInput); setBodySearch(bodySearchInput); } }}
           placeholder="표제어를 입력하세요."
+        />
+      ),
+    },
+    {
+      label: '내용',
+      component: (
+        <Input
+          value={bodySearchInput}
+          onChange={(e) => setBodySearchInput(e.target.value)}
+          onKeyDown={(e) => { if (e.key === 'Enter') { setSearch(searchInput); setBodySearch(bodySearchInput); } }}
+          placeholder="내용을 입력하세요."
         />
       ),
     },
@@ -47,11 +60,11 @@ export default function Page() {
     <MainLayout title="KUMO 사전 관리">
       <DataGridSearchSection
         fields={searchFields}
-        onSearch={() => setSearch(searchInput)}
-        onReset={() => { setSearchInput(''); setSearch(''); setMissingKanji(false); }}
+        onSearch={() => { setSearch(searchInput); setBodySearch(bodySearchInput); }}
+        onReset={() => { setSearchInput(''); setSearch(''); setBodySearchInput(''); setBodySearch(''); setMissingKanji(false); }}
       />
       <DataGridSingleLayout>
-        <KumoDictGrid search={search} missingKanji={missingKanji} />
+        <KumoDictGrid search={search} bodySearch={bodySearch} missingKanji={missingKanji} />
       </DataGridSingleLayout>
     </MainLayout>
   );

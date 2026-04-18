@@ -44,6 +44,7 @@ export async function GET(req: NextRequest) {
   const startRow = parseInt(searchParams.get('startRow') || '0');
   const endRow = parseInt(searchParams.get('endRow') || '100');
   const search = searchParams.get('search') || '';
+  const bodySearch = searchParams.get('bodySearch') || '';
   const sortField = searchParams.get('sortField') || 'id';
   const sortDir = searchParams.get('sortDir') === 'desc' ? 'DESC' : 'ASC';
   const missingKanji = searchParams.get('missingKanji') === 'true';
@@ -66,6 +67,11 @@ export async function GET(req: NextRequest) {
   if (search) {
     conditions.push('(headword LIKE ? OR display LIKE ?)');
     params.push(`%${search}%`, `%${search}%`);
+  }
+
+  if (bodySearch) {
+    conditions.push('body LIKE ?');
+    params.push(`%${bodySearch}%`);
   }
 
   const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';

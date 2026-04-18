@@ -40,23 +40,26 @@ const BodyCellRenderer = (props: CustomCellRendererProps) => {
 
 interface KumoDictGridProps {
   search: string;
+  bodySearch: string;
   missingKanji: boolean;
 }
 
-export default function KumoDictGrid({ search, missingKanji }: KumoDictGridProps) {
+export default function KumoDictGrid({ search, bodySearch, missingKanji }: KumoDictGridProps) {
   const gridRef = useRef<AgGridReact<IEntry>>(null);
   const [loading, setLoading] = useState(true);
   const searchRef = useRef(search);
+  const bodySearchRef = useRef(bodySearch);
   const missingKanjiRef = useRef(missingKanji);
 
   useEffect(() => {
     searchRef.current = search;
+    bodySearchRef.current = bodySearch;
     missingKanjiRef.current = missingKanji;
     if (gridRef.current?.api) {
       setLoading(true);
       gridRef.current.api.refreshServerSide({ purge: true });
     }
-  }, [search, missingKanji]);
+  }, [search, bodySearch, missingKanji]);
 
   const colDefs = useMemo<ColDef<IEntry>[]>(() => [
     {
@@ -132,6 +135,7 @@ export default function KumoDictGrid({ search, missingKanji }: KumoDictGridProps
           startRow: String(startRow ?? 0),
           endRow: String(endRow ?? 100),
           search: searchRef.current,
+          bodySearch: bodySearchRef.current,
           sortField,
           sortDir,
           missingKanji: String(missingKanjiRef.current),
