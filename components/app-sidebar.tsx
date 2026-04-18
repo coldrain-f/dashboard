@@ -144,7 +144,12 @@ const data = {
       name: "Anki Dashboard",
       url: "/anki",
       icon: IconDashboard,
-    }
+    },
+    {
+      name: "KUMO 사전 관리",
+      url: "/dashboard/kumo-dict",
+      icon: IconDatabase,
+    },
   ],
   householdLedgers: [
     {
