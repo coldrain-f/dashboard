@@ -186,62 +186,36 @@ export default function KumoDictGrid({ search, missingKanji }: KumoDictGridProps
   }, []);
 
   return (
-    <div>
-      <div className="mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">
-              KUMO 사전 목록
-            </h1>
-            <p className="text-sm text-slate-500">
-              표제어를 검색하고 내용을 관리할 수 있습니다.
-            </p>
-          </div>
-          <div className="flex gap-2 justify-end mb-2">
-            <Button
-              size="sm"
-              className="cursor-pointer gap-2 bg-slate-50 text-slate-600 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 transition-all duration-200 rounded-lg"
-              onClick={handleReset}
-            >
-              <IconRefresh />
-              초기화
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="cursor-pointer"
-              onClick={handleAddRow}
-            >
-              <IconPlus />
-              행 추가
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="cursor-pointer"
-              onClick={handleDeleteRows}
-            >
-              <IconMinus />
-              행 삭제
-            </Button>
-            <Button
-              variant="default"
-              size="sm"
-              className="cursor-pointer"
-              onClick={() => gridRef.current?.api.refreshServerSide({ purge: false })}
-            >
-              <IconDeviceFloppy />
-              저장
-            </Button>
-          </div>
-        </div>
-
-        {/* AG Grid */}
-        <div
-          className="ag-theme-shadcn rounded-lg shadow-sm shadow-slate-200/50"
-          style={{ height: 650, width: '100%' }}
+    <div className="space-y-3 mt-4">
+      {/* Toolbar */}
+      <div className="flex justify-end gap-2">
+        <Button
+          size="sm"
+          className="cursor-pointer gap-2 bg-slate-50 text-slate-600 border border-slate-200 hover:bg-slate-100 hover:border-slate-300 transition-all duration-200 rounded-lg"
+          onClick={handleReset}
         >
+          <IconRefresh />
+          초기화
+        </Button>
+        <Button variant="outline" size="sm" className="cursor-pointer" onClick={handleAddRow}>
+          <IconPlus />
+          행 추가
+        </Button>
+        <Button variant="outline" size="sm" className="cursor-pointer" onClick={handleDeleteRows}>
+          <IconMinus />
+          행 삭제
+        </Button>
+        <Button variant="default" size="sm" className="cursor-pointer" onClick={() => gridRef.current?.api.refreshServerSide({ purge: false })}>
+          <IconDeviceFloppy />
+          저장
+        </Button>
+      </div>
+
+      {/* AG Grid */}
+      <div
+        className="ag-theme-shadcn rounded-lg shadow-sm shadow-slate-200/50"
+        style={{ height: 650, width: '100%' }}
+      >
           <AgGridReact<IEntry>
             ref={gridRef}
             rowModelType="serverSide"
@@ -266,13 +240,12 @@ export default function KumoDictGrid({ search, missingKanji }: KumoDictGridProps
             undoRedoCellEditingLimit={20}
             onCellValueChanged={onCellValueChanged}
           />
-        </div>
-
-        {/* Footer tip */}
-        <p className="text-xs text-slate-400">
-          Tip: 열 헤더를 클릭하면 정렬, 드래그하면 열 너비를 조절할 수 있습니다
-        </p>
       </div>
+
+      {/* Footer tip */}
+      <p className="text-xs text-slate-400">
+        Tip: 열 헤더를 클릭하면 정렬, 드래그하면 열 너비를 조절할 수 있습니다
+      </p>
     </div>
   );
 }
